@@ -1,11 +1,14 @@
 require('dotenv').config()
 
 const fs = require('fs')
+const cors = require('cors')
 const path = require('path')
 const bcrypt = require('bcrypt')
+const multer = require('multer')
 const JWT = require('jsonwebtoken')
 const jsonServer = require('json-server')
 
+const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || 'public/'
 const AUTH_READ = process.env.AUTH_READ === 'yes' || false
 const AUTH_WRITE = process.env.AUTH_WRITE === 'yes' || false
 const SECRET_KEY = process.env.SECRET_KEY || ''
@@ -93,9 +96,19 @@ const checkAuth = (req, res, next) => {
   }
 }
 
-server.use(middlewares)
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, UPLOAD_FOLDER);
+  },
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
 
+server.use(cors())
+server.use(middlewares)
 server.use(jsonServer.bodyParser)
+
 
 server.post('/auth/login', (req, res) => {
   const { username, password } = req.body
@@ -116,15 +129,16 @@ server.post('/auth/login', (req, res) => {
 });
 
 server.post('/auth/register', (req, res) => {
-    const { username, password } = req.body
-    if (username && password) {
-      if (registerUser(username, password)) {
-        res.status(201).json({ message: 'Registration completed' })
-      }
-      return res.status(400).json({ message: 'Username is taken' })
+  const { username, password } = req.body
+  if (username && password) {
+    if (registerUser(username, password)) {
+      res.status(201).json({ message: 'Registration completed' })
     }
-    return res.status(400).json({ message: 'username and password needed.' })
-  });
+    return res.status(400).json({ message: 'Username is taken' })
+  }
+  return res.status(400).json({ message: 'username and password needed.' })
+});
+
 
 if (!AUTH_READ) {
   server.get(/^\/api/, checkAuth)
@@ -134,7 +148,25 @@ if (!AUTH_WRITE) {
   server.put(/^\/api/, checkAuth)
   server.post(/^\/api/, checkAuth)
   server.delete(/^\/api/, checkAuth)
+  server.post('/upload', checkAuth)
 }
+
+server.post('/upload', (req, res) => {
+  let upload = multer({ storage }).single('file')
+  upload(req, res, function(err) {
+    if (req.fileValidationError) {
+        return res.status(400).json({ message: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ message: 'file field is required' });
+    } else if (err instanceof multer.MulterError) {
+        return res.status(400).json({ message: err });
+    } else if (err) {
+        return res.status(400).json({ message: err });
+    }
+    const path = `${req.protocol}://${req.get('host')}/${req.file.path.replace(UPLOAD_FOLDER, '')}`
+    return res.status(201).json({ path })
+  });
+})
 
 server.use('/api/', router)
 server.listen(PORT, () => { console.log(`JSON Server is running on port ${PORT}`) })
