@@ -10,7 +10,7 @@ const jsonServer = require('json-server')
 
 const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || 'public/'
 const AUTH_READ = process.env.AUTH_READ === 'yes' || false
-const AUTH_WRITE = process.env.AUTH_WRITE === 'yes' || false
+const AUTH_WRITE = process.env.AUTH_WRITE === 'yes' || true
 const SECRET_KEY = process.env.SECRET_KEY || ''
 const JWT_EXPIRATION = process.env.JWT_EXPIRATION || '24h'
 const PORT = process.env.PORT || 8000;
@@ -140,11 +140,11 @@ server.post('/auth/register', (req, res) => {
 });
 
 
-if (!AUTH_READ) {
+if (AUTH_READ) {
   server.get(/^\/api/, checkAuth)
 }
 
-if (!AUTH_WRITE) {
+if (AUTH_WRITE) {
   server.put(/^\/api/, checkAuth)
   server.post(/^\/api/, checkAuth)
   server.delete(/^\/api/, checkAuth)
