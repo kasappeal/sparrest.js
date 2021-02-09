@@ -88,6 +88,9 @@ const checkAuth = (req, res, next) => {
       throw err
     }
     req.body.userId = decode.userId
+    if (req.method === 'POST' || req.method === 'PUT') {
+      req.body.updatedAt = new Date().toISOString()
+    }
     return next();
   } catch (err) {
     const status = 401
