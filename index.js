@@ -19,10 +19,6 @@ const SALT = bcrypt.genSaltSync(process.env.SALT || 10)
 const dbFileName = process.env.DB_FILE || 'db.json'
 const dbFilePath = path.join(__dirname, dbFileName)
 
-const server = jsonServer.create();
-const router = jsonServer.router(dbFilePath)
-const middlewares = jsonServer.defaults()
-
 const getDB = () => {
   const fileContents = fs.readFileSync(dbFilePath)
   return JSON.parse(fileContents)
@@ -32,6 +28,18 @@ const saveDB = (db) => {
   fs.writeFileSync(dbFilePath, JSON.stringify(db))
 }
 
+const initDB = () => {
+  db = {}
+  if (fs.existsSync(dbFilePath)) {
+    db = getDB()
+  }
+  const users = db.users || null
+  if (!users) {
+    db.users = []
+  }
+  saveDB(db)
+}
+
 const getUsers = () => {
   try {
     const db = getDB()
@@ -39,19 +47,6 @@ const getUsers = () => {
   } catch (err) {
     console.error('Error while retrieving users', err)
     return []
-  }
-}
-
-const saveUser = (user) => {
-  try {
-    const db = getDB()
-    if (!Array.isArray(db.users)) {
-      db.users = []
-    }
-    db.users.push(user)
-    saveDB(db)
-  } catch (err) {
-    console.error('Error while saving users', err)
   }
 }
 
@@ -65,15 +60,14 @@ const getAuthenticatedUser = (username, password) => {
     return null
 }
 
-const registerUser = (username, password) => {
-    const encryptedPassword = bcrypt.hashSync(password, SALT)
-    const users = getUsers()
-    const usersExists = users.find(user => user.username === username)
-    if (usersExists) {
-        return false
-    }
-    saveUser({ id: users.length + 1, username, password: encryptedPassword })
-    return true
+const encryptPassword = password => {
+  return bcrypt.hashSync(password, SALT)
+}
+
+const userExists = username => {
+  const users = getUsers()
+  const findedUser = users.find(user => user.username === username) || null
+  return findedUser
 }
 
 const createToken = payload => JWT.sign(payload, SECRET_KEY, { expiresIn: JWT_EXPIRATION });
@@ -108,6 +102,12 @@ const storage = multer.diskStorage({
   }
 });
 
+initDB()
+
+const server = jsonServer.create();
+const router = jsonServer.router(dbFilePath)
+const middlewares = jsonServer.defaults()
+
 server.use(cors())
 server.use(middlewares)
 server.use(jsonServer.bodyParser)
@@ -131,13 +131,16 @@ server.post('/auth/login', (req, res) => {
   return res.status(400).json({ message: 'username and password needed.' })
 });
 
-server.post('/auth/register', (req, res) => {
+server.post('/auth/register', (req, res, next) => {
   const { username, password } = req.body
   if (username && password) {
-    if (registerUser(username, password)) {
-      res.status(201).json({ message: 'Registration completed' })
+    if (userExists(username)) {
+      return res.status(400).json({ message: 'Username is taken' })
     }
-    return res.status(400).json({ message: 'Username is taken' })
+    req.url = '/users/'
+    req.body.password = encryptPassword(password)
+    router.handle(req, res, next)
+    return res
   }
   return res.status(400).json({ message: 'username and password needed.' })
 });
