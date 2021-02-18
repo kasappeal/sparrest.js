@@ -8,7 +8,7 @@ const multer = require('multer')
 const JWT = require('jsonwebtoken')
 const jsonServer = require('json-server')
 
-const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || 'public/'
+const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || 'public'
 const AUTH_READ = process.env.AUTH_READ === 'yes' || false
 const AUTH_WRITE = process.env.AUTH_WRITE === 'yes' || true
 const SECRET_KEY = process.env.SECRET_KEY || 'Annie is Vader'
@@ -169,7 +169,7 @@ server.post('/upload', (req, res) => {
     } else if (err) {
         return res.status(400).json({ message: err });
     }
-    const path = `${req.protocol}://${req.get('host')}/${req.file.path.replace(UPLOAD_FOLDER, '')}`
+    const path = `${req.protocol}://${req.get('host')}/${req.file.path.replace(UPLOAD_FOLDER, '').replace('\\', '/').replace('/', '/')}`
     return res.status(201).json({ path })
   });
 })
