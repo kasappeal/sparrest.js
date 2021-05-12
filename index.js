@@ -9,8 +9,8 @@ const JWT = require('jsonwebtoken')
 const jsonServer = require('json-server')
 
 const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || 'public'
-const AUTH_READ = process.env.AUTH_READ === 'yes' || false
-const AUTH_WRITE = process.env.AUTH_WRITE === 'yes' || true
+const AUTH_READ = process.env.AUTH_READ === 'yes'
+const AUTH_WRITE = process.env.AUTH_WRITE !== 'no'
 const SECRET_KEY = process.env.SECRET_KEY || 'Annie is Vader'
 const JWT_EXPIRATION = process.env.JWT_EXPIRATION || '24h'
 const PORT = process.env.PORT || 8000;
