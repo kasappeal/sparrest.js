@@ -169,7 +169,7 @@ server.post('/upload', (req, res) => {
     } else if (err) {
         return res.status(400).json({ message: err });
     }
-    const path = `${req.protocol}://${req.get('host')}/${req.file.path.replace(UPLOAD_FOLDER, '').replace('\\', '/').replace('/', '/')}`
+    const path = `${req.protocol}://${req.get('host')}/${req.file.path.replace(UPLOAD_FOLDER, '').replace('\\', '/').replace('//', '/')}`
     return res.status(201).json({ path })
   });
 })
