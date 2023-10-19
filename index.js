@@ -4,12 +4,14 @@ const cors = require('cors');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-const JWT = require('jsonwebtoken');
+
 const jsonServer = require('json-server');
 
 const initDB = require('./database/initDB');
 const getDB = require('./database/getDB');
 const config = require('./config/config');
+const { createToken, verifyToken } = require('./utils/JWT');
+const authRouter = require('./routes/authRoutes');
 
 const dbFileName = process.env.DB_FILE || 'db.json';
 const dbFilePath = path.join(__dirname, dbFileName);
@@ -43,12 +45,6 @@ const userExists = (username) => {
   const findedUser = users.find((user) => user.username === username) || null;
   return findedUser;
 };
-
-const createToken = (payload) =>
-  JWT.sign(payload, config.SECRET_KEY, { expiresIn: config.JWT_EXPIRATION });
-
-const verifyToken = (token) =>
-  JWT.verify(token, config.SECRET_KEY, (err, decode) => ({ err, decode }));
 
 const checkAuth = (req, res, next) => {
   try {
@@ -91,37 +87,7 @@ server.use(cors());
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-server.post('/auth/login', (req, res) => {
-  const { username, password } = req.body;
-  if (username && password) {
-    const authenticatedUser = getAuthenticatedUser(username, password);
-    if (!authenticatedUser) {
-      const status = 401;
-      const message = 'Wrong username/password';
-      return res.status(status).json({ message });
-    }
-    const accessToken = createToken({
-      userId: authenticatedUser.id,
-      username: authenticatedUser.username,
-    });
-    return res.status(201).json({ accessToken });
-  }
-  return res.status(400).json({ message: 'username and password needed.' });
-});
-
-server.post('/auth/register', (req, res, next) => {
-  const { username, password } = req.body;
-  if (username && password) {
-    if (userExists(username)) {
-      return res.status(400).json({ message: 'Username is taken' });
-    }
-    req.url = '/users/';
-    req.body.password = encryptPassword(password);
-    router.handle(req, res, next);
-    return res;
-  }
-  return res.status(400).json({ message: 'username and password needed.' });
-});
+server.use('/auth', authRouter);
 
 if (config.AUTH_READ) {
   server.get(/^\/api/, checkAuth);
