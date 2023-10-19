@@ -16,16 +16,6 @@ const authRouter = require('./routes/authRoutes');
 const dbFileName = process.env.DB_FILE || 'db.json';
 const dbFilePath = path.join(__dirname, dbFileName);
 
-const getUsers = () => {
-  try {
-    const db = getDB();
-    return Array.isArray(db.users) ? db.users : [];
-  } catch (err) {
-    console.error('Error while retrieving users', err);
-    return [];
-  }
-};
-
 const getAuthenticatedUser = (username, password) => {
   const encryptedPassword = bcrypt.hashSync(password, config.SALT);
   const users = getUsers();
@@ -34,16 +24,6 @@ const getAuthenticatedUser = (username, password) => {
     return user;
   }
   return null;
-};
-
-const encryptPassword = (password) => {
-  return bcrypt.hashSync(password, config.SALT);
-};
-
-const userExists = (username) => {
-  const users = getUsers();
-  const findedUser = users.find((user) => user.username === username) || null;
-  return findedUser;
 };
 
 const checkAuth = (req, res, next) => {
