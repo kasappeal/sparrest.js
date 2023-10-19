@@ -9,7 +9,7 @@ const JWT_EXPIRATION = process.env.JWT_EXPIRATION || '24h';
 const PORT = process.env.PORT || 8000;
 const SALT = bcrypt.genSaltSync(process.env.SALT || 10);
 
-const dbFileName = process.env.DB_FILE || 'db.json';
+const dbFileName = process.env.DB_FILE || '../database/db.json';
 const dbFilePath = path.join(__dirname, dbFileName);
 
 const config = {
