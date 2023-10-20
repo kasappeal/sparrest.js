@@ -3,6 +3,7 @@ const {
   encryptPassword,
   getAuthenticatedUser,
   createToken,
+  createFolder,
 } = require('../utils');
 
 const router = require('../routes/jsonServerRoutes');
@@ -20,12 +21,13 @@ const login = (req, res) => {
       userId: authenticatedUser.id,
       username: authenticatedUser.username,
     });
+
     return res.status(201).json({ accessToken });
   }
   return res.status(400).json({ message: 'username and password needed.' });
 };
 
-const register = (req, res, next) => {
+const register = async (req, res, next) => {
   const { username, password } = req.body;
   if (username && password) {
     if (userExists(username)) {
@@ -33,6 +35,7 @@ const register = (req, res, next) => {
     }
     req.url = '/users/';
     req.body.password = encryptPassword(password);
+    await createFolder(username);
     router.handle(req, res, next);
     return res;
   }
