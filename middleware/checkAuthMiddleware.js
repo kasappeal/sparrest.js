@@ -7,7 +7,12 @@ const checkAuth = (req, res, next) => {
     if (err) {
       throw err;
     }
+    req.user = {
+      userId: decode.userId,
+      username: decode.username,
+    };
     req.body.userId = decode.userId;
+    console.log(decode);
     if (req.method === 'POST' || req.method === 'PUT') {
       req.body.updatedAt = new Date().toISOString();
     }
