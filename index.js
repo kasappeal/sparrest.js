@@ -5,9 +5,11 @@ const jsonServer = require('json-server');
 
 const initDB = require('./database/initDB');
 const config = require('./config');
+
 const authRouter = require('./routes/authRoutes');
 const jsonServerRouter = require('./routes/jsonServerRoutes');
 const uploadRouter = require('./routes/uploadRouter');
+const usersRouter = require('./routes/usersRoutes');
 
 initDB();
 
@@ -18,6 +20,7 @@ server.use(cors());
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
+server.use('/users', usersRouter);
 server.use('/auth', authRouter);
 server.use(/^\/api/, uploadRouter);
 server.use(/^\/api/, jsonServerRouter);
