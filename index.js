@@ -19,7 +19,7 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 server.use('/auth', authRouter);
-server.use('/^/api/upload', uploadRouter);
+server.use(/^\/api/, uploadRouter);
 server.use(/^\/api/, jsonServerRouter);
 
 server.listen(config.PORT, () => {
