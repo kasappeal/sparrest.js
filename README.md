@@ -38,7 +38,7 @@ You can upload files by making a multipart POST request with a file field (with 
 
 - You can checout the API Documentation in `http://localhost:8000` and following the link provided or directly in `http://localhost:8000/api/docs`. Note that if you set a different port in .env or config files you will need to change the port accordingly.
 
-- In order to unlock protected routes (shown with a open padlock) you must login, copy token, click in `Authorize` button and paste it.
+- In order to unlock protected routes (shown with a open padlock) you must login, copy accessToken value, click in `Authorize` button and paste it.
 
 ## Postman
 
