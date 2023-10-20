@@ -10,14 +10,15 @@ const initDB = require('./database/initDB');
 const config = require('./config');
 
 const authRouter = require('./routes/authRoutes');
-const jsonServerRouter = require('./routes/jsonServerRoutes');
 const uploadRouter = require('./routes/uploadRouter');
 const usersRouter = require('./routes/usersRoutes');
 const notFoundMiddleware = require('./middleware/notFoundMiddleware');
+const checkAuthMiddleware = require('./middleware/checkAuthMiddleware');
 
 initDB();
 
 const server = jsonServer.create();
+const router = jsonServer.router(config.dbFilePath);
 const middlewares = jsonServer.defaults();
 
 server.use(cors());
@@ -33,12 +34,22 @@ if (servers && servers.length > 0) {
   servers[0].url = `http://localhost:${config.PORT}`;
 }
 
-server.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 server.use('/users', usersRouter);
 server.use('/auth', authRouter);
 server.use('/upload', uploadRouter);
-server.use(/^\/api/, jsonServerRouter);
 
+if (config.AUTH_READ) {
+  server.use(/^\/api/, checkAuthMiddleware);
+}
+
+if (config.AUTH_WRITE) {
+  server.put(/^\/api/, checkAuthMiddleware);
+  server.post(/^\/api/, checkAuthMiddleware);
+  server.delete(/^\/api/, checkAuthMiddleware);
+}
+
+server.use('/api/', router);
 server.use(notFoundMiddleware);
 
 server.listen(config.PORT, () => {

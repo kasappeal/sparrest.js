@@ -104,5 +104,6 @@ dist
 .tern-port
 
 db.json
+dbbackup.json
 public/*
 !public/.gitkeep
