@@ -21,6 +21,6 @@ module.exports = {
   },
   rules: {
     semi: [2, 'always'],
-    'comma-dangle': [2, 'always-multiline'],
+    'comma-dangle': [2, 'only-multiline'],
   },
 };

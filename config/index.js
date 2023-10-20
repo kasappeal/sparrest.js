@@ -1,7 +1,7 @@
 const path = require('path');
 const bcrypt = require('bcrypt');
 
-const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || 'public';
+const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || 'public/uploads';
 const AUTH_READ = process.env.AUTH_READ === 'yes';
 const AUTH_WRITE = process.env.AUTH_WRITE !== 'no';
 const SECRET_KEY = process.env.SECRET_KEY || 'Annie is Vader';
