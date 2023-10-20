@@ -152,7 +152,7 @@ paths:
       deprecated: false
       security:
         - bearer: []
-  /api/upload:
+  /upload:
     post:
       tags:
         - File Upload

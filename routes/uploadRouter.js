@@ -6,7 +6,7 @@ const fileValidationMiddleware = require('../middleware/fileValidationMiddleware
 const router = express.Router();
 
 router.post(
-  '/upload',
+  '/',
   checkAuthMiddleware,
   multerMiddleware().single('file'),
   fileValidationMiddleware,

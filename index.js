@@ -36,7 +36,7 @@ if (servers && servers.length > 0) {
 server.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 server.use('/users', usersRouter);
 server.use('/auth', authRouter);
-server.use(/^\/api/, uploadRouter);
+server.use('/upload', uploadRouter);
 server.use(/^\/api/, jsonServerRouter);
 
 server.use(notFoundMiddleware);
