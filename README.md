@@ -4,9 +4,15 @@ A [json-server](https://github.com/typicode/json-server) fork to enjoy developin
 
 ## Setup
 
-1. Create a `/database/db.json` file with the entities of your DB
+1. Create a `/database/db.json` file with the entities of your DB, you can create as many entities as you want
   - Example with Tweets:
-    ![dbjson](https://github.com/JoseAlbDR/sparrest.js/assets/128265706/36b90cd7-666c-48ba-b5e7-7c2d003b4762)
+   ```js
+  {
+    "users": [],
+    "tweets": []
+  }
+
+  ```
 2. Create a .env file or edit the .env.example file provided to configure environment variables, if not set all variables will be created with default values as seen in `/config/index.js`file
   - Example .env file:
    ```text
@@ -31,9 +37,11 @@ You can upload files by making a multipart POST request with a file field (with 
 
 - You can checout the API Documentation in `http://localhost:8000` and following the link provided or directly in `http://localhost:8000/api/docs`. Note that if you set a different port in .env or config files you will need to change the port accordingly.
 
+- In order to unlock protected routes (shown with a open padlock) you must login, copy token, click in `Authorize` button and paste it.
+
 ## Postman
 
-- In the repo there is a file called `Sparrest.postman_collection.json` with all the available endpoints wich you can directly import in Postmand and start using it right away.
+- In the repo there is a file called `Sparrest.postman_collection.json` with a sample collenction wich you can directly import in Postmand and start using it right away.
 - To import the collection follow the next steps:
 1. Click in the top left Import button next to your workspace name:
    
@@ -61,5 +69,7 @@ You can upload files by making a multipart POST request with a file field (with 
   - GET /users/me
   ![auth](https://github.com/JoseAlbDR/sparrest.js/assets/128265706/f376f2c5-a22f-4931-ace4-358698fe8626)
 
-Change {resource} for your resource name, per example tweets or products and freely use the API with Postman.
+  - Optionally you can create a new Global/Environment variable, paste the token value inside and set it in all protected endpoints: Authorization => type: Bearer Token {{variableName}}
+    
+Change {resource} for your resource name, per example tweets or products and freely test the API with Postman.
   
