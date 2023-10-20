@@ -1,12 +1,12 @@
 const express = require('express');
 const uploadController = require('../controllers/uploadController');
-const checkAuth = require('../middleware/checkAuthMiddleware');
+const checkAuthMiddleware = require('../middleware/checkAuthMiddleware');
 const multerMiddleware = require('../middleware/multerMiddleware');
 const router = express.Router();
 
 router.post(
   '/upload',
-  checkAuth,
+  checkAuthMiddleware,
   multerMiddleware().single('file'),
   uploadController
 );
