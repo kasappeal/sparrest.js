@@ -1,17 +1,19 @@
 const config = require('../config');
-const checkAuth = require('../middleware/checkAuthMiddleware');
+const checkAuthMiddleware = require('../middleware/checkAuthMiddleware');
 const jsonServer = require('json-server');
 
 const router = jsonServer.router(config.dbFilePath);
 
+console.log(config.AUTH_READ, config.AUTH_WRITE);
+
 if (config.AUTH_READ) {
-  router.get(/^\//, checkAuth);
+  router.get(/^\//, checkAuthMiddleware);
 }
 
 if (config.AUTH_WRITE) {
-  router.put('/', checkAuth);
-  router.post('/', checkAuth);
-  router.delete('/', checkAuth);
+  router.put('/', checkAuthMiddleware);
+  router.post('/', checkAuthMiddleware);
+  router.delete('/', checkAuthMiddleware);
 }
 
 module.exports = router;
