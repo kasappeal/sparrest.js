@@ -2,16 +2,23 @@ const multer = require('multer');
 const config = require('../config');
 const path = require('path');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, config.UPLOAD_FOLDER);
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + '-' + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+const fileUpload = () => {
+  const storage = multer.diskStorage({
+    destination: async (req, file, cb) => {
+      let newPath = '';
+      newPath = path.posix.join(
+        __dirname,
+        `${config.UPLOAD_FOLDER}/${req.user.username}`
+      );
+      cb(null, `${newPath}`);
+    },
+    filename: (_req, file, cb) => {
+      const fileName = Date.now() + file.originalname;
+      cb(null, fileName);
+    },
+  });
 
-module.exports = storage;
+  return multer({ storage });
+};
+
+module.exports = fileUpload;
