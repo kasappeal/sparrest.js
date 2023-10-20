@@ -2,7 +2,7 @@ const path = require('path');
 
 const uploadFile = (req, res) => {
   const filePath = path.posix.join(
-    'uploads',
+    '/uploads',
     req.user.username,
     req.file.filename
   );
