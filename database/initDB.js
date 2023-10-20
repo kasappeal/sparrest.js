@@ -1,10 +1,10 @@
 const getDB = require('./getDB');
 const saveDB = require('./saveDB');
 const fs = require('fs');
-const config = require('../config/config');
+const config = require('../config');
 
 const initDB = () => {
-  db = {};
+  let db = {};
 
   if (fs.existsSync(config.dbFilePath)) {
     db = getDB(config.dbFilePath);

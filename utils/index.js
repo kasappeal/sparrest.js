@@ -2,6 +2,7 @@ const { createToken, verifyToken } = require('./JWT');
 const userExists = require('./userExists');
 const getUsers = require('./getUsers');
 const encryptPassword = require('./encryptPassword');
+const getAuthenticatedUser = require('./getAuthenticatedUser');
 
 module.exports = {
   createToken,
@@ -9,4 +10,5 @@ module.exports = {
   userExists,
   getUsers,
   encryptPassword,
+  getAuthenticatedUser,
 };

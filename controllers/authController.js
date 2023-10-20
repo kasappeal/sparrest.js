@@ -1,4 +1,13 @@
-const { userExists, encryptPassword } = require('../utils');
+const {
+  userExists,
+  encryptPassword,
+  getAuthenticatedUser,
+  createToken,
+} = require('../utils');
+
+const jsonServer = require('json-server');
+const config = require('../config');
+const router = jsonServer.router(config.dbFilePath);
 
 const login = (req, res) => {
   const { username, password } = req.body;
@@ -32,4 +41,4 @@ const register = (req, res, next) => {
   return res.status(400).json({ message: 'username and password needed.' });
 };
 
-module.exports = { login, register };
+module.exports = { login, register, router };

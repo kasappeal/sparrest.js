@@ -1,3 +1,5 @@
+const getDB = require('../database/getDB');
+
 const getUsers = () => {
   try {
     const db = getDB();

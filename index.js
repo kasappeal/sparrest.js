@@ -2,33 +2,18 @@ require('dotenv').config();
 
 const cors = require('cors');
 const path = require('path');
-const bcrypt = require('bcrypt');
 const multer = require('multer');
 
 const jsonServer = require('json-server');
 
 const initDB = require('./database/initDB');
-const getDB = require('./database/getDB');
-const config = require('./config/config');
-const { createToken, verifyToken } = require('./utils/JWT');
+const config = require('./config');
+const { verifyToken } = require('./utils/JWT');
 const authRouter = require('./routes/authRoutes');
-
-const dbFileName = process.env.DB_FILE || 'db.json';
-const dbFilePath = path.join(__dirname, dbFileName);
-
-const getAuthenticatedUser = (username, password) => {
-  const encryptedPassword = bcrypt.hashSync(password, config.SALT);
-  const users = getUsers();
-  const user = users.find((user) => user.username === username);
-  if (user && bcrypt.compareSync(password, user.password)) {
-    return user;
-  }
-  return null;
-};
 
 const checkAuth = (req, res, next) => {
   try {
-    const [bearer, token] = req.headers.authorization.split(' ');
+    const [, token] = req.headers.authorization.split(' ');
     const { err, decode } = verifyToken(token);
     if (err) {
       throw err;
@@ -60,13 +45,12 @@ const storage = multer.diskStorage({
 initDB();
 
 const server = jsonServer.create();
-const router = jsonServer.router(dbFilePath);
+const router = jsonServer.router(config.dbFilePath);
 const middlewares = jsonServer.defaults();
 
 server.use(cors());
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
-
 server.use('/auth', authRouter);
 
 if (config.AUTH_READ) {
