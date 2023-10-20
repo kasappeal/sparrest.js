@@ -55,3 +55,5 @@ server.use(notFoundMiddleware);
 server.listen(config.PORT, () => {
   console.log(`JSON Server is running on port ${config.PORT}`);
 });
+
+module.exports = router;

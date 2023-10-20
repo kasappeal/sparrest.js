@@ -6,7 +6,7 @@ const {
   createFolder,
 } = require('../utils');
 
-const router = require('../routes/jsonServerRoutes');
+const router = require('../index');
 
 const login = (req, res) => {
   const { username, password } = req.body;
