@@ -5,8 +5,10 @@ const {
   createToken,
   createFolder,
 } = require('../utils');
+const config = require('../config');
+const jsonServer = require('json-server');
 
-const router = require('../index');
+const router = jsonServer.router(config.dbFilePath);
 
 const login = (req, res) => {
   const { username, password } = req.body;
