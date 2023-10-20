@@ -1,7 +1,7 @@
 const path = require('path');
 const bcrypt = require('bcrypt');
 
-const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || 'public/uploads';
+const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || '../public/uploads';
 const AUTH_READ = process.env.AUTH_READ === 'yes';
 const AUTH_WRITE = process.env.AUTH_WRITE !== 'no';
 const SECRET_KEY = process.env.SECRET_KEY || 'Annie is Vader';
@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8000;
 const SALT = bcrypt.genSaltSync(process.env.SALT || 10);
 
 const dbFileName = process.env.DB_FILE || '../database/db.json';
-const dbFilePath = path.join(__dirname, dbFileName);
+const dbFilePath = path.posix.join(__dirname, dbFileName);
 
 const config = {
   UPLOAD_FOLDER,
