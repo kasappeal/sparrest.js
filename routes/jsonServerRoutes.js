@@ -4,8 +4,6 @@ const jsonServer = require('json-server');
 
 const router = jsonServer.router(config.dbFilePath);
 
-console.log(config.AUTH_READ, config.AUTH_WRITE);
-
 if (config.AUTH_READ) {
   router.get(/^\//, checkAuthMiddleware);
 }
