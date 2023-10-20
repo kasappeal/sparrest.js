@@ -16,11 +16,12 @@ A [json-server](https://github.com/typicode/json-server) fork to enjoy developin
 2. Create a .env file or edit the .env.example file provided to configure environment variables, if not set all variables will be created with default values as seen in `/config/index.js`file
   - Example .env file:
    ```text
-    UPLOAD_FOLDER='../public/uploads';
-    AUTH_READ='yes'
-    AUTH_WRITE='no'
-    SECRET_KEY='Annie is Vader'
-    JWT_EXPIRATION='24h'
+    UPLOAD_FOLDER=../public/uploads
+    DB_FILE=../database/db.json
+    AUTH_READ=yes
+    AUTH_WRITE=no
+    SECRET_KEY=Annie is Vader
+    JWT_EXPIRATION=24h
     PORT=8000
     SALT=10
    ```
