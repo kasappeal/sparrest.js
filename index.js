@@ -4,7 +4,6 @@ const cors = require('cors');
 const jsonServer = require('json-server');
 const swaggerUI = require('swagger-ui-express');
 const YAML = require('yamljs');
-const fs = require('fs');
 const swaggerDocument = YAML.load('./swagger.yaml');
 
 const initDB = require('./database/initDB');
