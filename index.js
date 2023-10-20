@@ -12,13 +12,13 @@ const config = require('./config');
 const authRouter = require('./routes/authRoutes');
 const uploadRouter = require('./routes/uploadRouter');
 const usersRouter = require('./routes/usersRoutes');
+const { router } = require('./controllers/authController');
 const notFoundMiddleware = require('./middleware/notFoundMiddleware');
 const checkAuthMiddleware = require('./middleware/checkAuthMiddleware');
 
 initDB();
 
 const server = jsonServer.create();
-const router = jsonServer.router(config.dbFilePath);
 const middlewares = jsonServer.defaults();
 
 server.use(cors());
