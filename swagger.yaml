@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+  title: Sparrest
+  contact: {}
+  version: '2.0'
+servers:
+  - url: 'http://localhost:${PORT}'
+    variables: {}
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register
+      operationId: Register
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RegisterRequest'
+                - example:
+                    username: user
+                    password: secret
+            example:
+              username: user
+              password: secret
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      operationId: Login
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/LoginRequest'
+                - example:
+                    username: user
+                    password: secret
+            example:
+              username: user
+              password: secret
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /api/{resource}:
+    parameters:
+      - in: path
+        name: resource
+        schema:
+          type: string
+        required: true
+        description: The resource name
+    get:
+      tags:
+        - Resources
+      summary: List Resource
+      operationId: ListResource
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+    post:
+      tags:
+        - Resources
+      summary: Create Resource
+      operationId: CreateResource
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateTweetRequest'
+                - example:
+                    author: JoshConstine
+                    date: ''
+                    message: 'THREAD: After writing hundreds of articles about about apps this year, here’s my wishlist of feature launches like Twitter DM search & Uber “Quiet Ride”. First up, Instagram... 1/'
+                    likes: 2
+            example:
+              author: JoshConstine
+              date: ''
+              message: 'THREAD: After writing hundreds of articles about about apps this year, here’s my wishlist of feature launches like Twitter DM search & Uber “Quiet Ride”. First up, Instagram... 1/'
+              likes: 2
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /api/{resource}/{id}:
+    parameters:
+      - in: path
+        name: resource
+        schema:
+          type: string
+        required: true
+        description: The resource name
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: The resource ID
+    patch:
+      tags:
+        - Resources
+      summary: Update Resource
+      operationId: UpdateResource
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    delete:
+      tags:
+        - Resources
+      summary: Delete Resource
+      operationId: DeleteResource
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /api/upload:
+    post:
+      tags:
+        - File Upload
+      summary: Upload File
+      operationId: UploadFile
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            encoding: {}
+            schema:
+              required:
+                - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+        required: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /users/me:
+    get:
+      tags:
+        - Users
+      summary: Current User
+      operationId: CurrentUser
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+components:
+  schemas:
+    RegisterRequest:
+      title: RegisterRequest
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      example:
+        username: user
+        password: secret
+    LoginRequest:
+      title: LoginRequest
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      example:
+        username: user
+        password: secret
+    CreateTweetRequest:
+      title: CreateTweetRequest
+      required:
+        - author
+        - date
+        - message
+        - likes
+      type: object
+      properties:
+        author:
+          type: string
+        date:
+          type: string
+        message:
+          type: string
+        likes:
+          type: integer
+          format: int32
+      example:
+        author: JoshConstine
+        date: ''
+        message: 'THREAD: After writing hundreds of articles about about apps this year, here’s my wishlist of feature launches like Twitter DM search & Uber “Quiet Ride”. First up, Instagram... 1/'
+        likes: 2
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+  - name: Auth
+  - name: Tweets
+  - name: File Upload
+  - name: Users
