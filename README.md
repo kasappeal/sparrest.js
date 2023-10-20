@@ -32,7 +32,7 @@ A [json-server](https://github.com/typicode/json-server) fork to enjoy developin
 
 ## Uploading files
 
-You can upload files by making a multipart POST request with a file field (with file contents) to `/api/upload`.
+You can upload files by making a multipart POST request with a file field (with file contents) to `/upload`.
 
 ## Documentation
 
