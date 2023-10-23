@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "adf6f027-f7ab-4819-91df-5df3f289d565",
+		"_postman_id": "daf9250b-cf33-4d5d-bc0c-d81c8d7d07af",
 		"name": "Sparrest",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27654043"
@@ -113,7 +113,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{accessToken}}",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -122,7 +122,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"author\":\"JoshConstine\",\r\n    \"date\":\"\",\r\n    \"message\":\"THREAD: After writing hundreds of articles about about apps this year, here’s my wishlist of feature launches like Twitter DM search & Uber “Quiet Ride”. First up, Instagram... 1/\",\r\n    \"likes\":2\r\n}\r\n",
+							"raw": "{\r\n \"name\":\"\",\r\n \"description\":\"\",\r\n \"image\":\"\",\r\n \"price\":0,\r\n \"for\":\"Search\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -232,19 +232,18 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/H:/DescargasM2/morfeo.webp"
+									"src": []
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/upload",
+							"raw": "http://localhost:8000/upload",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
-								"api",
 								"upload"
 							]
 						}
