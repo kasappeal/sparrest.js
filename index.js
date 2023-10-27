@@ -53,7 +53,7 @@ server.use('/api/', router);
 server.use(notFoundMiddleware);
 
 server.listen(config.PORT, () => {
-  console.log(`JSON Server is running on port ${config.PORT}`);
+  console.log(`JSON Server is running on http://localhost:${config.PORT}`);
 });
 
 module.exports = router;
