@@ -6,7 +6,7 @@ const {
   createFolder,
 } = require('../utils');
 
-const { router } = require('../routes/jsonServerRoutes');
+const jsonServerRouter = require('../routes/jsonServerRoutes');
 
 const login = (req, res) => {
   const { username, password } = req.body;
@@ -36,10 +36,10 @@ const register = async (req, res, next) => {
     req.url = '/users/';
     req.body.password = encryptPassword(password);
     await createFolder(username);
-    router.handle(req, res, next);
+    jsonServerRouter.handle(req, res, next);
     return res;
   }
   return res.status(400).json({ message: 'username and password needed.' });
 };
 
-module.exports = { login, register, router };
+module.exports = { login, register };
