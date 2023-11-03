@@ -5,12 +5,12 @@ const path = require('path');
 const fileUpload = () => {
   const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
-      let newPath = '';
-      newPath = path.posix.join(
+      const newPath = path.posix.join(
         __dirname,
-        `${config.UPLOAD_FOLDER}/${req.user.username}`
+        config.UPLOAD_FOLDER,
+        req.user.username
       );
-      cb(null, `${newPath}`);
+      cb(null, newPath);
     },
     filename: (_req, file, cb) => {
       const fileName = Date.now() + file.originalname;
