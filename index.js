@@ -8,15 +8,12 @@ const swaggerDocument = YAML.load('./swagger.yaml');
 
 const initDB = require('./database/initDB');
 const config = require('./config');
-
 const authRouter = require('./routes/authRoutes');
 const uploadRouter = require('./routes/uploadRouter');
 const usersRouter = require('./routes/usersRoutes');
-const { router } = require('./controllers/authController');
-const notFoundMiddleware = require('./middleware/notFoundMiddleware');
-const checkAuthMiddleware = require('./middleware/checkAuthMiddleware');
+const jsonServerRouter = require('./routes/jsonServerRoutes');
 
-initDB();
+const notFoundMiddleware = require('./middleware/notFoundMiddleware');
 
 const server = jsonServer.create();
 const middlewares = jsonServer.defaults();
@@ -38,22 +35,11 @@ server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 server.use('/users', usersRouter);
 server.use('/auth', authRouter);
 server.use('/upload', uploadRouter);
+server.use(/^\/api/, jsonServerRouter);
 
-if (config.AUTH_READ) {
-  server.use(/^\/api/, checkAuthMiddleware);
-}
-
-if (config.AUTH_WRITE) {
-  server.put(/^\/api/, checkAuthMiddleware);
-  server.post(/^\/api/, checkAuthMiddleware);
-  server.delete(/^\/api/, checkAuthMiddleware);
-}
-
-server.use('/api/', router);
 server.use(notFoundMiddleware);
-
+initDB();
 server.listen(config.PORT, () => {
-  console.log(`JSON Server is running on http://localhost:${config.PORT}`);
+console.log(`Connected to ${config.dbFilePath} DB`);
+console.log(`JSON Server is running on http://localhost:${config.PORT}`);
 });
-
-module.exports = router;

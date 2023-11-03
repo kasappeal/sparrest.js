@@ -17,6 +17,7 @@ const checkAuth = (req, res, next) => {
     }
     return next();
   } catch (err) {
+    console.log(err);
     const status = 401;
     const message = 'Wrong access token';
     return res.status(status).json({ status, message });
