@@ -40,6 +40,6 @@ server.use(/^\/api/, jsonServerRouter);
 server.use(notFoundMiddleware);
 initDB();
 server.listen(config.PORT, () => {
-console.log(`Connected to ${config.dbFilePath} DB`);
-console.log(`JSON Server is running on http://localhost:${config.PORT}`);
+  console.log(`Connected to ${config.dbFilePath} DB`);
+  console.log(`JSON Server is running on http://localhost:${config.PORT}`);
 });
