@@ -23,7 +23,7 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 server.get('/', (req, res) => {
-  res.send('<h1>Sparrest API</h1><a href="/api/docs">Documentation</a>');
+  res.send('<h1>Sparrest API</h1><a href="/docs">Documentation</a>');
 });
 
 const { servers } = swaggerDocument;
