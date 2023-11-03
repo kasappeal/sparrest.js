@@ -253,6 +253,5 @@ components:
 security: []
 tags:
   - name: Auth
-  - name: Tweets
   - name: File Upload
   - name: Users
