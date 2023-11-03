@@ -15,8 +15,6 @@ const jsonServerRouter = require('./routes/jsonServerRoutes');
 
 const notFoundMiddleware = require('./middleware/notFoundMiddleware');
 
-initDB();
-
 const server = jsonServer.create();
 const middlewares = jsonServer.defaults();
 
@@ -40,9 +38,8 @@ server.use('/upload', uploadRouter);
 server.use(/^\/api/, jsonServerRouter);
 
 server.use(notFoundMiddleware);
-
+initDB();
 server.listen(config.PORT, () => {
-  initDB();
-  console.log(`Connected to ${config.dbFilePath} DB`);
-  console.log(`JSON Server is running on port ${config.PORT}`);
+console.log(`Connected to ${config.dbFilePath} DB`);
+console.log(`JSON Server is running on http://localhost:${config.PORT}`);
 });
