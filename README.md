@@ -66,7 +66,7 @@ You can upload files by making a multipart POST request with a file field (with 
   - POST /api/{resource}
   - PATCH /api/{resource}
   - DELETE /api/{resource}
-  - POST /api/upload
+  - POST /upload
   - GET /users/me
   ![auth](https://github.com/JoseAlbDR/sparrest.js/assets/128265706/f376f2c5-a22f-4931-ace4-358698fe8626)
 
