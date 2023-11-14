@@ -5,12 +5,16 @@ const multerMiddleware = require('../middleware/multerMiddleware');
 const fileValidationMiddleware = require('../middleware/fileValidationMiddleware');
 const router = express.Router();
 
-router.post(
-  '/',
-  checkAuthMiddleware,
-  multerMiddleware().single('file'),
-  fileValidationMiddleware,
-  uploadController
-);
+const { config } = require('dotenv');
+
+if (config.AUTH_WRITE) {
+  router.post(
+    '/',
+    checkAuthMiddleware,
+    multerMiddleware().single('file'),
+    fileValidationMiddleware,
+    uploadController
+  );
+}
 
 module.exports = router;
