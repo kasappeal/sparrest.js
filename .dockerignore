@@ -1,0 +1,6 @@
+node_modules
+.dockerignore
+.gitignore
+.env.example
+README.md
+Sparrest.postman_collection.json
