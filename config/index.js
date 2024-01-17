@@ -1,27 +1,25 @@
 const path = require('path');
 const bcrypt = require('bcrypt');
 
-const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || '../public/uploads';
-const AUTH_READ = process.env.AUTH_READ === 'yes';
-const AUTH_WRITE = process.env.AUTH_WRITE !== 'no';
-const SECRET_KEY = process.env.SECRET_KEY || 'Annie is Vader';
-const JWT_EXPIRATION = process.env.JWT_EXPIRATION || '24h';
-const PORT = process.env.PORT || 8000;
-const SALT = bcrypt.genSaltSync(Number(process.env.SALT) || 10);
-
-const dbFileName = process.env.DB_FILE || 'db.json';
-const dbFilePath = path.posix.join(__dirname, '..', 'database', dbFileName);
+const { get } = require('env-var');
 
 const config = {
-  UPLOAD_FOLDER,
-  AUTH_READ,
-  AUTH_WRITE,
-  SECRET_KEY,
-  JWT_EXPIRATION,
-  PORT,
-  SALT,
-  dbFileName,
-  dbFilePath,
+  UPLOAD_FOLDER: get('UPLOAD_FOLDER').default('../public/uploads').asString(),
+  AUTH_READ: get('AUTH_READ').default('yes').asString(),
+  AUTH_WRITE: get('AUTH_WRITE').default('no').asString(),
+  SECRET_KEY: get('SECRET_KEY').default('Annie is Vader').asString(),
+  JWT_EXPIRATION: get('JWT_EXPIRATION').default('24h').asString(),
+  PORT: get('PORT').default(8000).asPortNumber(),
+  SALT: bcrypt.genSaltSync(Number(get('SALT')) || 10),
+  DB_RESOURCES: get('DB_RESOURCES').default('tweets').asString(),
+  dbFileName: get('DB_FILE').default('db.json').asString(),
 };
+
+config.dbFilePath = path.posix.join(
+  __dirname,
+  '..',
+  'database',
+  config.dbFileName
+);
 
 module.exports = config;
