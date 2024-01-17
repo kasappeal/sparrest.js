@@ -5,7 +5,7 @@ const multerMiddleware = require('../middleware/multerMiddleware');
 const fileValidationMiddleware = require('../middleware/fileValidationMiddleware');
 const router = express.Router();
 
-const { config } = require('dotenv');
+const config = require('../config');
 
 if (config.AUTH_WRITE) {
   router.post(
