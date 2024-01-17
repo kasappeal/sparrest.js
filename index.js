@@ -48,7 +48,7 @@ if (config.AUTH_WRITE) {
 }
 
 server.use('/api/', router);
-server.use(notFoundMiddleware);
+server.use('*', notFoundMiddleware);
 
 initDB();
 server.listen(config.PORT, () => {
