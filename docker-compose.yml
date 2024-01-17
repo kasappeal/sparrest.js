@@ -1,15 +1,15 @@
 version: '3.8'
 
 services:
-  sparrest:
+  app:
+    container_name: sparrest
     build:
       context: .
       target: prod
       dockerfile: Dockerfile
     volumes:
-      - ./database/db.json:/app/database/db.json
-      - ./public/uploads:/app/public/uploads
-    container_name: sparrest
+      - ./database/:/app/database/
+      - ./public/uploads/:/app/public/uploads/
     ports:
       - ${PORT}:${PORT}
     environment:
