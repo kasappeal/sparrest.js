@@ -1,6 +1,8 @@
 const path = require('path');
 
 const uploadFile = (req, res) => {
+  if (!req.file) return res.status(400).json({ message: 'File is required' });
+
   const protocol = req.protocol + '://';
   const host = req.get('host');
 
