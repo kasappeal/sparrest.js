@@ -4,19 +4,7 @@ A [json-server](https://github.com/typicode/json-server) fork to enjoy developin
 
 ## Setup
 
-1. Create a `/database/db.json` file with the entities of your DB, you can create as many entities as you want
-
-- Example with Tweets:
-
-```js
-{
- "users": [],
- "tweets": []
-}
-
-```
-
-2. Create a .env file or rename the .env.example file provided to configure environment variables, if not set all variables will be created with default values as seen in `/config/index.js`file
+1. Create a .env file or rename the .env.example file provided to configure environment variables, if not set all variables will be created with default values as seen in `/config/index.js`file
 
 - Example .env file:
 
@@ -29,36 +17,45 @@ A [json-server](https://github.com/typicode/json-server) fork to enjoy developin
  JWT_EXPIRATION=24h
  PORT=8000
  SALT=10
+ DB_RESOURCES=tweets
+```
+
+**NOTE:** DB_RESOURCES will create a new entry in the file db.json and json-server will create endpoints for that resource, if empty or not present the default value is 'tweets'
+If you want to add more than one resource you have to use comma separated values like:
+
+```
+  ...
+
+  DB_RESOURCES=products,likes,comments
+
+  ...
+```
+
+2. Install dependencies:
+
+```
+  npm i
 ```
 
 4. Run the server with `npm start`
+
 5. Register a user with `POST /auth/register { username: "luke", password: "skywalker" }`
+
 6. Login to obtain your JWT token: `POST /auth/login { username: "luke", password: "skywalker" }`
+
 7. Start using `json-server` routes in `/api/<resource-name>`. You'll need to auth every request by adding an HTTP header: `Authorization: Bearer <JWT token>`
 
 ## Docker
 
-1. Create a `/database/db.json` file with the entities of your DB, you can create as many entities as you want
+1. Create a .env file or rename the .env.example file provided to configure environment variables.
 
-- Example with Tweets:
-
-```js
-{
- "users": [],
- "tweets": []
-}
-
-```
-
-2. Create a .env file or rename the .env.example file provided to configure environment variables.
-
-3. Run the following command to run the app in the root directory
+2. Run the following command to run the app in the root directory
 
 ```
   docker compose up
 ```
 
-**NOTE**: folders database/db.json and public/uploads are bound to the container filesystem, any changes in the container will be reflected in the local folders but 
+**NOTE**: folders database/db.json and public/uploads are bound to the container filesystem, any changes in the container will be reflected in the local folders but
 if you want changes done in the local folders to be reflected in the container filesystem you have to run the following command
 
 ```
