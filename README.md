@@ -4,7 +4,12 @@ A [json-server](https://github.com/typicode/json-server) fork to enjoy developin
 
 ## Setup
 
-1. Create a .env file or rename the .env.example file provided to configure environment variables, if not set all variables will be created with default values as seen in `/config/index.js`file
+1. Create a `/database/db.json` file with the entities of your DB
+
+- Example with Tweets:
+  ![dbjson](https://github.com/JoseAlbDR/sparrest.js/assets/128265706/36b90cd7-666c-48ba-b5e7-7c2d003b4762)
+
+2. Create a .env file or rename the .env.example file provided to configure environment variables, if not set all variables will be created with default values as seen in `/config/index.js`file
 
 - Example .env file:
 
@@ -17,21 +22,9 @@ A [json-server](https://github.com/typicode/json-server) fork to enjoy developin
  JWT_EXPIRATION=24h
  PORT=8000
  SALT=10
- DB_RESOURCES=tweets
 ```
 
-**NOTE:** DB_RESOURCES will create a new entry in the file db.json and json-server will create endpoints for that resource, if empty or not present the default value is 'tweets'
-If you want to add more than one resource you have to use comma separated values like:
-
-```
-  ...
-
-  DB_RESOURCES=products,likes,comments
-
-  ...
-```
-
-2. Install dependencies:
+3. Install dependencies:
 
 ```
   npm i
