@@ -11,7 +11,6 @@ const config = {
   JWT_EXPIRATION: get('JWT_EXPIRATION').default('24h').asString(),
   PORT: get('PORT').default(8000).asPortNumber(),
   SALT: bcrypt.genSaltSync(Number(get('SALT')) || 10),
-  DB_RESOURCES: get('DB_RESOURCES').default('tweets').asString(),
   dbFileName: get('DB_FILE').default('db.json').asString(),
 };
 
