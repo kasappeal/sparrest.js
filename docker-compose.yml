@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: sparrest
+    build:
+      context: .
+      target: prod
+      dockerfile: Dockerfile
+    volumes:
+      - ./database/:/app/database/
+      - ./public/uploads/:/app/public/uploads/
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      PORT: ${PORT}
+      DB_FILE: ${DB_FILE}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      SALT: ${SALT}
+      AUTH_READ: ${AUTH_READ}
+      AUTH_WRITE: ${AUTH_WRITE}
+    expose:
+      - ${PORT}
+    restart: always
