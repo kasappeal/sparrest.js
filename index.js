@@ -60,6 +60,12 @@ const getAuthenticatedUser = (username, password) => {
     return null
 }
 
+const findUserById = (userId) => {
+  const users = getUsers();
+  const user = users.find(user => user.id === userId);
+  return user;
+}
+
 const encryptPassword = password => {
   return bcrypt.hashSync(password, SALT)
 }
@@ -144,6 +150,12 @@ server.post('/auth/register', (req, res, next) => {
   }
   return res.status(400).json({ message: 'username and password needed.' })
 });
+
+server.get('/auth/me', checkAuth, (req, res) => {
+  const userId = req.body.userId;
+  const loggedUser = findUserById(userId);
+  return res.status(200).json(loggedUser)
+})
 
 
 if (AUTH_READ) {
